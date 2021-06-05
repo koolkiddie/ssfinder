@@ -1,3 +1,4 @@
+wait(5)
 local AnomalyTable = {}
 local System = tostring(game:GetService("ReplicatedStorage").System.LinkedSystem.Value)
 local Done = false
