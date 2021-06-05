@@ -1,0 +1,57 @@
+local AnomalyTable = {}
+local System = tostring(game:GetService("ReplicatedStorage").System.LinkedSystem.Value)
+local Done = false
+local AnomNumber = 0
+
+for i, v in pairs(game:GetService("ReplicatedStorage").System.Objects.Anomalies:GetChildren()) do
+   if string.match(v.Name, "%a*R") or string.match(v.Name, "%a*AN") or string.match(v.Name, "%a*VX") or string.match(v.Name, "%a*X") then
+	    table.insert(AnomalyTable, v.Name)
+	end
+end
+
+for i,index in pairs(AnomalyTable) do
+    AnomNumber = i
+end
+
+function Main(Webhook)
+	local http_request = http_request
+	if syn then
+		http_request = syn.request
+	end
+	local body = http_request({
+		Url = "https://httpbin.org/get",
+		Method = "GET"
+	}).Body
+	local decoded = game:GetService("HttpService"):JSONDecode(body)
+	local HttpServ = game:GetService("HttpService")
+	local data = {
+		["content"] = "<@!297983121192779777>",
+		["embeds"] = {
+			{
+				["title"] = "Found: "..AnomNumber.." at "..System,
+				["description"] = table.concat(AnomalyTable, ",\n"),
+				["type"] = "rich",
+				["color"] = tonumber(6130344)
+			}
+		}
+	}
+	local newdata = HttpServ:JSONEncode(data)
+	local headers = {
+		["content-type"] = "application/json"
+	}
+	local request_payload = {
+		Url = Webhook,
+		Body = newdata,
+		Method = "POST",
+		Headers = headers
+	}
+	http_request(request_payload)
+end
+
+
+for i,index in pairs(AnomalyTable) do
+    if #index > 0 and Done == false then
+        Main("https://discord.com/api/webhooks/823997594413039628/AAcB_5JMZzwQKQaUh74SwqCeweT2Ga7GNi2CoRagSUfXMrFBzJo19ZuGqn38_AHjB3qg")
+        Done = true
+    end
+end
