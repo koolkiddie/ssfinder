@@ -58,4 +58,4 @@ for i,index in pairs(AnomalyTable) do
     end
 end
 
-print("Ended")
+print("Ended");
