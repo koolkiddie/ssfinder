@@ -1,5 +1,6 @@
-wait(5)
-print("Starting")
+game:GetService("Players").PlayerAdded:Wait()
+wait(3)
+
 local AnomalyTable = {}
 local System = tostring(game:GetService("ReplicatedStorage").System.LinkedSystem.Value)
 local Done = false
@@ -58,4 +59,4 @@ for i,index in pairs(AnomalyTable) do
     end
 end
 
-print("Ended");
+print("Ended")
